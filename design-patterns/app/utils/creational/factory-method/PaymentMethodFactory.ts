@@ -1,9 +1,10 @@
 import CreditCard from './CreditCard';
 import DebitCard from './DebitCard';
 import PayPal from './PayPal';
+import PaymentMethod from './PaymentMethod';
 
-export default class PaymentFactory {
-    static createPaymentMethod(type: PaymentFactory) {
+export default class PaymentMethodFactory {
+    static createPaymentMethod(type: string): PaymentMethod {
         switch (type) {
             case 'credit_card':
                 return new CreditCard();

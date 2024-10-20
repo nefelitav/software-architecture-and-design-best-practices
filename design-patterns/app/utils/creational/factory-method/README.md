@@ -1,0 +1,3 @@
+A factory method is useful for **encapsulating** complex object creation, enforcing rules, and providing **flexibility** when creating different subclasses. It **decouples** the client from the construction logic, making the code easier to **maintain** and change. Additionally, it helps ensure **consistency** by **reusing** common object creation logic across different parts of the application.
+
+![Alt text](../../../../uml/FactoryMethod_UML.png)

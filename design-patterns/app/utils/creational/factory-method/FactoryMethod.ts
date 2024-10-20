@@ -1,11 +1,11 @@
-import PaymentFactory from "./PaymentFactory";
+import PaymentMethodFactory from "./PaymentMethodFactory";
 
 export default function FactoryMethod() {
     const paymentMethods = ['credit_card', 'paypal', 'debit_card'];
 
     paymentMethods.forEach(method => {
         try {
-            const payment = PaymentFactory.createPaymentMethod(method);
+            const payment = PaymentMethodFactory.createPaymentMethod(method);
             console.log(payment.processPayment(100)); 
         } catch (error: unknown) {
             if (error instanceof Error) {
