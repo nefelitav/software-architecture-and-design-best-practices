@@ -1,15 +1,27 @@
-import ConcretePaymentFactory from "./ConcretePaymentFactory";
+import CreditCardFactory from "./CreditCard/CreditCardFactory";
+import PayPalFactory from "./PayPal/PayPalFactory";
+import DebitCardFactory from "./DebitCard/DebitCardFactory";
 
 export default function FactoryMethod() {
-    const paymentFactory = new ConcretePaymentFactory();
-    const amount = 100;
+    const creditCardFactory = new CreditCardFactory();
+    const creditCardPayment = creditCardFactory.createPayment();
+    const creditCardProcessor = creditCardFactory.createProcessor();
+    creditCardPayment.makePayment();
+    creditCardProcessor.processPayment();
 
-    const creditCard = paymentFactory.createCreditCard();
-    console.log(creditCard.processPayment(amount));
+    
 
-    const debitCard = paymentFactory.createDebitCard();
-    console.log(debitCard.processPayment(amount));
+    const payPalFactory = new PayPalFactory();
+    const payPalPayment = payPalFactory.createPayment();
+    const payPalProcessor = payPalFactory.createProcessor();
+    payPalPayment.makePayment();
+    payPalProcessor.processPayment();
 
-    const payPal = paymentFactory.createPayPal();
-    console.log(payPal.processPayment(amount));
+
+
+    const debitCardFactory = new DebitCardFactory();
+    const debitCardPayment = debitCardFactory.createPayment();
+    const debitCardProcessor = debitCardFactory.createProcessor();
+    debitCardPayment.makePayment();
+    debitCardProcessor.processPayment();
 }
