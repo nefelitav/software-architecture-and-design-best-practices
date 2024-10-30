@@ -1,6 +1,6 @@
 import PaymentConnectionPool from './PaymentConnectionPool';
 
-export default function Pool() {
+export default function PoolPattern() {
     const pool = new PaymentConnectionPool(2);
     try {
         const connection1 = pool.getConnection();
