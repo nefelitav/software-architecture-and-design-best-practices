@@ -1,4 +1,6 @@
-class CurrencyCountryFactory {
+import CurrencyCountry from './CurrencyCountry';
+
+export default class CurrencyCountryFactory {
     private flyweights: { [key: string]: CurrencyCountry } = {};
   
     getCurrencyCountry(currencyCode: string, countryCode: string): CurrencyCountry {

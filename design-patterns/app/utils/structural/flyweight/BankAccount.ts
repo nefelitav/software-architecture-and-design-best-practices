@@ -1,4 +1,6 @@
-class BankAccount {
+import CurrencyCountry from './CurrencyCountry';
+
+export default class BankAccount {
     constructor(public accountId: string, private currencyCountry: CurrencyCountry, public balance: number) {}
   
     getDetails(): string {
