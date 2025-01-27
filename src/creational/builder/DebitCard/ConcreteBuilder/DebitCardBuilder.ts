@@ -1,4 +1,4 @@
-import DebitCard from './DebitCard';
+import DebitCard from '../ConcreteProduct/DebitCard';
 import PaymentMethodBuilder from '../../BuilderInterface/PaymentMethodBuilder';
 
 export default class DebitCardBuilder implements PaymentMethodBuilder {

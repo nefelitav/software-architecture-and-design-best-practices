@@ -1,7 +1,7 @@
 import CreditCardBuilder from '../CreditCard/ConcreteBuilder/CreditCardBuilder';
 import DebitCardBuilder from '../CreditCard/ConcreteBuilder/CreditCardBuilder';
 import CreditCard from '../CreditCard/ConcreteProduct/CreditCard';
-import DebitCard from '../DebitCard/ConcreteBuilder/DebitCard';
+import DebitCard from '../DebitCard/ConcreteProduct/DebitCard';
 
 export default class PaymentMethodDirector {
     buildDebitCard(builder: DebitCardBuilder): DebitCard {
