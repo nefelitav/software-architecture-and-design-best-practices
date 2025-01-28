@@ -9,9 +9,5 @@ export default class Transaction {
     isCredit(): boolean {
       return this.type === 'credit';
     }
-  
-    isDebit(): boolean {
-      return this.type === 'debit';
-    }
   }
   

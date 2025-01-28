@@ -1,4 +1,4 @@
-import PaymentProcessorProxy from './PaymentProcessorProxy';
+import PaymentProcessorProxy from './Proxy/PaymentProcessorProxy';
 
 export default function Client() {
     const paymentProcessor = new PaymentProcessorProxy();

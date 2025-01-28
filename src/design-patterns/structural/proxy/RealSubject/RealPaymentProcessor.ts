@@ -1,4 +1,4 @@
-import PaymentProcessor from './PaymentProcessor';
+import PaymentProcessor from '../Subject/PaymentProcessor';
 
 export default class RealPaymentProcessor implements PaymentProcessor {
   processPayment(amount: number): string {

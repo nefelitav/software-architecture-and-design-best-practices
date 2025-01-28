@@ -1,5 +1,5 @@
-import PaymentProcessor from './PaymentProcessor';
-import RealPaymentProcessor from './RealPaymentProcessor';
+import PaymentProcessor from '../Subject/PaymentProcessor';
+import RealPaymentProcessor from '../RealSubject/RealPaymentProcessor';
 
 export default class PaymentProcessorProxy implements PaymentProcessor {
   private realProcessor: RealPaymentProcessor;

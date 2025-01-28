@@ -1,5 +1,5 @@
-import Database from "./Database";
-import Transaction from "./Transaction";
+import Database from "../Source/Database";
+import Transaction from "../Target/Transaction";
 
 export default class TransactionMapper {
     constructor(private db: Database) {}

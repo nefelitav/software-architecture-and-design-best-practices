@@ -22,6 +22,7 @@ The **Flyweight Pattern** is a structural design pattern used to minimize memory
 
 ### Example
 ```typescript
-const tree = TreeFactory.getTreeType("Oak", "Green", "Rough");
-const tree1 = new Tree(10, 20, tree);  // Reuses the same Flyweight (Oak Tree)
+const tree1 = TreeFactory.getTree("Oak", "small");
+const tree2 = TreeFactory.getTree("Oak", "small"); // saved as "Oak-small"
+console.log(tree1 === tree2); // true (same instance)
 ```
