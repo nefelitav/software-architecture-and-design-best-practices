@@ -1,0 +1,29 @@
+# Software Engineering Principles
+- YAGNI
+- Better Requirement Analysis
+- KISS (Keep it Simple, Stupid)
+- Modularity
+- Test-driven development 
+- Continuous Integration and Delivery 
+- Iterative life cycle process 
+- Measure twice and cut once
+- Clean vision
+- Abstraction
+- Think before you act
+- Never add extra
+- Documentation for prerequisite steps
+- Demeter: reduces coupling
+- Encapsulation: Packaging the data and functions of a module into a single unit.
+- DRY (Don't Repeat Yourself): Avoid duplication
+- YAGNI (You Ain't Gonna Need It): Avoiding adding unnecessary features.
+- SOLID Principles:
+  - SRP (Single Responsibility Principle)
+  - OCP (Open Closed Principle): Software entities should be open for extension but closed for modification 
+  - LSP (Liskov Substitution Principle): Subtypes should be substitutable for their base types without affecting correctness 
+  - ISP (Interface Segregation Principle): Clients should not be forced to depend on interfaces they do not use 
+  - DIP (Dependency Inversion Principle): High-level modules should depend on abstractions, not concrete implementations 
+- If it ain't broke, don't fix it
+- Principle of least astonishment: A component of a system should behave in a way that most users will expect it to behave.
+- MOSCOW: M - Must have, S - Should have, C - Could have, W - Won’t have.
+- Muntzing: reducing the components to the minimum
+- Worse is better: there is a point where less functionality ("worse") is a preferable option ("better") 
