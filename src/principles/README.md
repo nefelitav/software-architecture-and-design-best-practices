@@ -1,5 +1,4 @@
 # Software Engineering Principles
-- YAGNI
 - Better Requirement Analysis
 - KISS (Keep it Simple, Stupid)
 - Modularity
