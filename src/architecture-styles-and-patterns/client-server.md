@@ -1,4 +1,6 @@
 # Client Server
+
+## Description
 The client-server architecture is a model in which the client, a user or an application, sends a request to the server, which in turn responds with the requested data or service. The client and server can be on the same machine or on different machines connected through a network.
 
 The client is responsible for initiating communication with the server and sending a request. The server, on the other hand, listens for incoming requests from clients, processes them, and returns a response.

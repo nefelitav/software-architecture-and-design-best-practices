@@ -1,6 +1,3 @@
-# Architecture Styles
-An architecture style defines a broader set of principles for system design. These styles focus on how components and services interact at a high level.
-
 ## 4C Model (visual modeling technique for software architecture)
 ### Context Level
 Describes the system’s external environment, such as users, other systems, regulations, etc. This level provides a high-level overview of the system’s purpose and its relationship to the external world. It helps to identify the stakeholders who will interact with the system and the factors that will influence its design and development.
