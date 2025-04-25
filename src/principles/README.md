@@ -26,3 +26,4 @@
 - MOSCOW: M - Must have, S - Should have, C - Could have, W - Won’t have.
 - Muntzing: reducing the components to the minimum
 - Worse is better: there is a point where less functionality ("worse") is a preferable option ("better") 
+- Arrange-Act-Assert testing pattern

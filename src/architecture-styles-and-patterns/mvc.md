@@ -9,7 +9,10 @@ The **Model-View-Controller (MVC)** pattern is a widely-used architectural patte
 MVC promotes separation of concerns, making it easier to manage, test, and maintain the code.
 
 ## Pros
-- **Separation of Concerns**: Divides the application into three distinct components, which makes code more modular, maintainable, and testable.
-- **Scalability**: The separation makes it easier to scale the application by updating the UI, logic, or data layers independently.
-- **Flexibility**: Different views can be created for the same model. This is particularly useful for applications with multiple user interfaces.
-- **Easier Maintenance**: Changes in the business logic can be made without affecting the presentation logic, making it easier to implement changes over time.
+**Separation of Concerns**: Divides the application into three distinct components, which makes code more modular, maintainable, and testable.
+
+**Scalability**: The separation makes it easier to scale the application by updating the UI, logic, or data layers independently.
+
+**Flexibility**: Different views can be created for the same model. This is particularly useful for applications with multiple user interfaces.
+
+**Easier Maintenance**: Changes in the business logic can be made without affecting the presentation logic, making it easier to implement changes over time.
