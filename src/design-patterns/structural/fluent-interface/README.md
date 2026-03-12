@@ -1,28 +1,38 @@
 ## Fluent Interface
-### Description
-The **Fluent Interface Pattern** is used to create a more readable and expressive interface by chaining method calls. Each method returns an object, allowing the user to chain multiple method calls in a single statement.
 
-### Use Cases
-* Improve code readability and expressiveness.
-* Simplify method calls with a clear and easy-to-follow syntax.
+Designs an API so that each method returns the object itself, enabling readable method chains. The result reads almost like a sentence.
 
-### Components
-1. **Client**: The object or class that uses the fluent interface to call methods in a chain.
-2. **Fluent Methods**: Methods that return the object itself or another object, allowing for chained calls.
-3. **Target Object**: The object that is manipulated via method chaining.
+### When to use
+- You are building a configuration, query, or construction API.
+- Method call order is meaningful and sequential.
+- Readability of the calling code is a priority.
 
-### Pros
-**Readability**: Promotes cleaner and more concise code.  
-**Ease of Use**: Enhances the user experience of interacting with an API.
-
-### Cons
-**Verbosity**: Can lead to long method chains that may reduce clarity.  
-**Maintainability**: Overuse may complicate the design and understanding of the code.
+### Trade-offs
+- ✅ Expressive and readable at the call site.
+- ✅ Reduces intermediate variables and boilerplate.
+- ❌ Long chains can be hard to debug — one error fails the whole chain.
+- ❌ Works poorly when steps are conditional or order varies.
 
 ### Example
 ```typescript
-const person = new Person()
-    .setName("John")
-    .setAge(30)
-    .setAddress("123 Street");
+class EmailBuilder {
+  private to_      = '';
+  private subject_ = '';
+  private body_    = '';
+
+  to(address: string)   { this.to_      = address; return this; }
+  subject(text: string) { this.subject_ = text;    return this; }
+  body(text: string)    { this.body_    = text;     return this; }
+
+  send() {
+    console.log(`To: ${this.to_} | Subject: ${this.subject_} | Body: ${this.body_}`);
+  }
+}
+
+new EmailBuilder()
+  .to('user@example.com')
+  .subject('Your receipt')
+  .body('Thanks for your payment of $100.')
+  .send();
+// To: user@example.com | Subject: Your receipt | Body: Thanks for your payment of $100.
 ```

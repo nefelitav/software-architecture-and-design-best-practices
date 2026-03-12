@@ -1,30 +1,47 @@
 ## Proxy
-### Description
-The **Proxy Pattern** is a structural design pattern that provides a placeholder or surrogate for another object to control access to it. Proxies can add functionality like lazy initialization, access control, logging, or caching, without modifying the original object's code.
 
-### Use Cases
-* When controlling access to an object (e.g., authentication or permission checks).
-* When adding functionality like logging, caching, or lazy initialization to an object.
-* When working with remote objects, providing a local representation of them.
+Provides a substitute for another object to control access to it. The proxy has the same interface as the real object, so the client doesn't know the difference.
 
-### Components
-1. **Subject**: The interface or abstract class that defines the common operations for the real object and the proxy.
-2. **RealSubject**: The actual object that performs the core operations.
-3. **Proxy**: The object that acts as a placeholder, controlling access to the RealSubject and potentially adding functionality.
+### When to use
+- You need to add access control, caching, logging, or lazy initialisation around an object.
+- You want to defer expensive object creation until it's actually needed.
+- You need to intercept calls to a remote or sensitive resource.
 
-### Pros
-- **Encapsulation**: Hides the complexities of the RealSubject from the client.
-- **Additional Functionality**: Easily adds features like logging, caching, or access control without modifying the original object.
-
-### Cons
-- **Increased Complexity**: Introduces additional layers, which can make the system harder to understand and maintain.
-- **Potential Overhead**: May introduce slight performance overhead due to the added layer of abstraction.
+### Trade-offs
+- ✅ Adds behaviour without touching the real object.
+- ✅ Can be transparent to the client.
+- ❌ Adds a layer of indirection.
+- ❌ Easy to overuse — not everything needs a proxy.
 
 ### Example
 ```typescript
-const realSubject = new RealSubject();
-const proxy = new Proxy(realSubject);
-proxy.request();
-// Proxy: Logging access before forwarding to RealSubject.
-// RealSubject: Handling request.
+interface DataService {
+  fetchUser(id: string): string;
+}
+
+class RealDataService implements DataService {
+  fetchUser(id: string): string {
+    console.log(`Fetching user ${id} from DB...`);
+    return `User(${id})`;
+  }
+}
+
+class CachingProxy implements DataService {
+  private cache = new Map<string, string>();
+  constructor(private real: DataService) {}
+
+  fetchUser(id: string): string {
+    if (this.cache.has(id)) {
+      console.log(`Cache hit for ${id}`);
+      return this.cache.get(id)!;
+    }
+    const result = this.real.fetchUser(id);
+    this.cache.set(id, result);
+    return result;
+  }
+}
+
+const service = new CachingProxy(new RealDataService());
+service.fetchUser('u1'); // Fetching user u1 from DB...
+service.fetchUser('u1'); // Cache hit for u1
 ```

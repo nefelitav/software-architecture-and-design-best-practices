@@ -1,24 +1,38 @@
 ## Singleton
-### Description
-The **Singleton Pattern** ensures that a class has only **one** instance and provides a global access point to that instance. This is useful when you need to ensure that a class is only instantiated once, such as in cases where a shared resource or configuration is required throughout an application.
 
-### Use Cases
-* When you need to ensure that a class has only one instance throughout the application.
-* When managing global state, configurations, or resources that should be shared.
+Ensures a class has only one instance and provides a global access point to it.
 
-### Components
-1. **Singleton**: The class that contains the instance and ensures that only one instance of the class is created. It also provides access to this instance through a global access method, usually `getInstance()`.
-2. **Client**: The class or function that requests the singleton instance, ensuring that only one instance is used throughout the application.
+### When to use
+- A single shared resource must be reused across the application — config, logger, connection manager.
+- You need to control and coordinate access to a shared state.
 
-### Pros
-- **Global Access**: Provides a global point of access to the single instance of the class.
-- **Controlled Instantiation**: Ensures that only one instance is created, preventing unnecessary object creation.
-
-### Cons
-- **Hidden Dependencies**: Can make testing and debugging more difficult due to the global state.
+### Trade-offs
+- ✅ One instance — no duplication of expensive resources.
+- ✅ Easy global access without passing instances around.
+- ❌ Global state makes testing harder — instances carry state between tests.
+- ❌ Hides dependencies, making code less transparent.
 
 ### Example
 ```typescript
-const logger = Logger.getInstance();
-logger.log("Singleton pattern in action");
+class Logger {
+  private static instance: Logger;
+  private logs: string[] = [];
+
+  private constructor() {}
+
+  static getInstance(): Logger {
+    if (!Logger.instance) Logger.instance = new Logger();
+    return Logger.instance;
+  }
+
+  log(message: string) {
+    this.logs.push(message);
+    console.log(`[LOG] ${message}`);
+  }
+}
+
+const a = Logger.getInstance();
+const b = Logger.getInstance();
+a.log('Payment received');  // [LOG] Payment received
+console.log(a === b);       // true
 ```

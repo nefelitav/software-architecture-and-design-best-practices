@@ -1,26 +1,39 @@
 ## Bridge
-### Description
-The **Bridge Pattern** decouples an abstraction from its implementation, allowing them to vary independently. It separates the high-level logic (abstraction) from the low-level implementation (details), making the system more flexible and extensible.
 
-### Use Cases
-* Avoid a strong coupling between abstraction and implementation.
-* Simplify complex hierarchies by separating different dimensions of responsibility.
+Decouples an abstraction from its implementation so both can vary independently. Instead of one large hierarchy, you have two separate ones connected by composition.
 
-### Components
-1. **Abstraction**: The high-level interface that defines operations.
-2. **Refined Abstraction**: A specialized version of the abstraction that may include additional operations.
-3. **Implementor**: The interface for the implementation classes.
-4. **Concrete Implementor**: Implements the `Implementor` interface and defines specific details.
-5. **Client**: Instantiates and uses the abstraction and implementor. It doesn't directly interact with the implementation details of payment processing; it relies on the abstraction to do so.
+### When to use
+- You want to avoid a class explosion from combining two varying dimensions (e.g. shape × colour, report × format).
+- You need to switch implementations at runtime.
+- Abstraction and implementation should be extensible independently.
 
-### Pros
-- **Flexibility**: Decouples abstraction and implementation, allowing independent changes.  
-
-### Cons
-- **Complexity**: Introduces additional layers to the system.
+### Trade-offs
+- ✅ Independent extension of abstraction and implementation.
+- ✅ Swap implementations at runtime without changing the abstraction.
+- ❌ More upfront design — overkill for simple hierarchies.
 
 ### Example
-```typescript  
-const remote = new RemoteControl(new SmartTV());  
-remote.togglePower();
+```typescript
+interface Renderer {
+  render(content: string): void;
+}
+
+class HtmlRenderer implements Renderer {
+  render(content: string) { console.log(`<p>${content}</p>`); }
+}
+
+class PlainTextRenderer implements Renderer {
+  render(content: string) { console.log(content); }
+}
+
+class Report {
+  constructor(private renderer: Renderer) {}
+  generate(content: string) { this.renderer.render(content); }
+}
+
+const htmlReport      = new Report(new HtmlRenderer());
+const plainTextReport = new Report(new PlainTextRenderer());
+
+htmlReport.generate('Q1 Summary');       // <p>Q1 Summary</p>
+plainTextReport.generate('Q1 Summary');  // Q1 Summary
 ```

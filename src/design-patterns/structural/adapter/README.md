@@ -1,26 +1,37 @@
 ## Adapter
-### Description
-The **Adapter Pattern** enables incompatible interfaces to work together by translating one interface into another, acting as a **bridge** between systems.
 
-### Use Cases
-* Integrate a class with an incompatible interface into your application.
-* Reuse existing code with a new interface.
+Lets two incompatible interfaces work together by wrapping one with a translation layer. The client talks to the adapter as if it were the expected interface.
 
-### Components
-1. **Target**: The expected interface for the client.
-2. **Adapter**: Translates requests from the target to the adaptee.
-3. **Adaptee**: The existing class with an incompatible interface.
-4. **Client**: Uses the target interface to interact with the adapter.
+### When to use
+- You want to use an existing class but its interface doesn't match what you need.
+- You're integrating a third-party or legacy system without modifying it.
+- You need to make several incompatible classes interchangeable.
 
-### Pros
-- **Reusability**: Enables integration of existing classes.  
-- **Flexibility**: Bridges communication between incompatible systems.
-
-### Cons
-- **Complexity**: Adds complexity to the system.
+### Trade-offs
+- ✅ Reuse existing code without touching it.
+- ✅ Keeps integration logic in one place.
+- ❌ Extra indirection — can obscure what's really happening.
 
 ### Example
-```typescript  
-const adapter = new PaymentAdapter(new LegacyPaymentSystem());  
-adapter.pay(200);
+```typescript
+// Legacy system
+class LegacyPaymentGateway {
+  makePayment(cents: number) {
+    console.log(`Legacy: processing ${cents} cents`);
+  }
+}
+
+// Interface your app expects
+interface PaymentProcessor {
+  charge(amount: number): void;
+}
+
+// Adapter
+class LegacyPaymentAdapter implements PaymentProcessor {
+  constructor(private legacy: LegacyPaymentGateway) {}
+  charge(amount: number) { this.legacy.makePayment(amount * 100); }
+}
+
+const processor: PaymentProcessor = new LegacyPaymentAdapter(new LegacyPaymentGateway());
+processor.charge(25); // Legacy: processing 2500 cents
 ```

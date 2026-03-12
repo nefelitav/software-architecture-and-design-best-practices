@@ -1,29 +1,40 @@
 ## Pool
-### Description
-The Pool Pattern is used to manage a set of **reusable** objects that are expensive to create and destroy, such as database connections or network sockets. A client of the pool will request an object from the pool and perform operations on the returned object. When the client has finished, it returns the object, which is a specific type of factory object, to the pool rather than destroying it.
 
-### Use Cases
-* When the cost of creating or destroying objects is high, and you want to reuse objects.
-* When you have a limited number of resources (like database connections or thread pools) and need to manage access to them efficiently.
+Maintains a set of reusable objects. Instead of creating and destroying expensive resources on demand, the pool lends them out and reclaims them when the caller is done.
 
-### Components
-1. **Object Pool**: Manages a collection of reusable objects. It provides methods for borrowing and returning objects, ensuring the objects are available when needed.
-2. **Pooled Object**: Represents the objects stored in the pool. These objects are reusable and often have initialization and reset logic.
-3. **Client**: Requests an object from the pool, uses it, and returns it when done. The client interacts with the pool to manage the object's lifecycle.
-4. **Factory (Optional)**: Can be used to create new objects when all existing objects in the pool are in use or when the pool needs to be expanded.
+### When to use
+- Object creation is expensive — database connections, threads, HTTP clients.
+- You have a fixed or limited number of resources to manage.
+- You want to avoid allocation overhead under high throughput.
 
-### Pros
-- **Resource Management**: Helps in managing and reusing expensive resources effectively.
-- **Improved Performance**: Reduces the overhead of creating and destroying objects frequently.
-
-### Cons
-- **Complexity**: Adds complexity in terms of tracking and managing pooled objects, especially when handling object states.
-- **Resource Leaks**: If objects are not properly returned to the pool, it can lead to resource leaks.
+### Trade-offs
+- ✅ Reduces the cost of repeated creation and destruction.
+- ✅ Naturally caps resource usage.
+- ❌ Objects must be properly reset before returning to the pool.
+- ❌ Unreturned objects cause leaks or pool exhaustion.
 
 ### Example
 ```typescript
-const connectionPool = new ConnectionPool();
-const connection = connectionPool.borrow();
-connection.executeQuery('SELECT * FROM users');
-connectionPool.return(connection);
+class ConnectionPool {
+  private available: string[] = ['conn-1', 'conn-2', 'conn-3'];
+  private inUse = new Set<string>();
+
+  acquire(): string {
+    const conn = this.available.pop();
+    if (!conn) throw new Error('No connections available');
+    this.inUse.add(conn);
+    return conn;
+  }
+
+  release(conn: string) {
+    this.inUse.delete(conn);
+    this.available.push(conn);
+  }
+}
+
+const pool = new ConnectionPool();
+const conn = pool.acquire();
+console.log(`Using ${conn}`); // Using conn-3
+pool.release(conn);
+console.log(`Returned ${conn}`);
 ```

@@ -1,28 +1,39 @@
-## Mediator Pattern
+## Mediator
 
-### Description
-The **Mediator Pattern** defines an object that centralizes communication between components (colleagues). Rather than having components interact directly, they communicate through the mediator. This reduces the dependencies between components, making the system more loosely coupled and easier to maintain.
+Centralises communication between components. Instead of components talking to each other directly, they go through a mediator. This reduces the web of direct dependencies.
 
-### Use Cases
-- When you have **complex communication** between multiple components that should be decoupled.
-- In scenarios where you need to **simplify** interaction between various components (e.g., chat systems, form validation).
-- When **centralized control** of communication is required for clarity and maintainability.
+### When to use
+- Multiple components need to coordinate but shouldn't be tightly coupled.
+- You want to centralise cross-component logic in one place.
+- Direct wiring between components is getting hard to manage.
 
-### Components
+### Trade-offs
+- ✅ Reduces coupling between components.
+- ✅ Easier to change coordination logic in one place.
+- ❌ Mediator itself can grow complex if it handles too much.
 
-1. **Mediator Interface**: Declares a method for sending messages between colleagues. This is typically a method like `send()`.
-2. **ConcreteMediator**: Implements the `Mediator` interface and coordinates communication between colleagues. It knows the colleagues and how to communicate with them.
-3. **Colleague**: Each colleague is a participant that communicates with other colleagues only through the mediator. They don't directly reference each other.
-4. **Client**: Creates and configures the mediator, as well as adds the colleagues to it.
-
-### Example (Chat System for Transaction Updates)
-
+### Example
 ```typescript
-const mediator = new ConcreteMediator();
-const transactionManager = new TransactionManager(mediator);
-const notificationSystem = new NotificationSystem(mediator);
+type EventType = 'payment:completed' | 'notification:send';
 
-mediator.addColleague(transactionManager);
-mediator.addColleague(notificationSystem);
+class EventBus {
+  private handlers: Partial<Record<EventType, ((data: unknown) => void)[]>> = {};
 
-mediator.send('Transaction successful', transactionManager); // Will notify Notification System
+  on(event: EventType, handler: (data: unknown) => void) {
+    (this.handlers[event] ??= []).push(handler);
+  }
+
+  emit(event: EventType, data: unknown) {
+    this.handlers[event]?.forEach(h => h(data));
+  }
+}
+
+const bus = new EventBus();
+
+bus.on('payment:completed', (data) => console.log('Sending receipt for', data));
+bus.on('payment:completed', (data) => console.log('Updating ledger for', data));
+
+bus.emit('payment:completed', { id: 'tx42', amount: 150 });
+// Sending receipt for { id: 'tx42', amount: 150 }
+// Updating ledger for { id: 'tx42', amount: 150 }
+```

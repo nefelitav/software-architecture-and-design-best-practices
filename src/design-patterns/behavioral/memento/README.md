@@ -1,30 +1,34 @@
-## Memento Pattern
+## Memento
 
-### Description
-The **Memento Pattern** allows an object's state to be captured and restored without exposing its internal details. This is useful for implementing **undo/redo** functionality or saving and restoring the state of an object at different points in time.
+Captures and restores an object's state without exposing its internals. The classic mechanism behind undo/redo.
 
-### Use Cases
-- **Undo/Redo** functionality in applications (e.g., text editors, graphic design tools).
-- **Saving and restoring** the state of an object during transactions or workflows.
-- **Snapshotting** the state of objects before making potentially risky changes.
+### When to use
+- You need undo/redo or state rollback.
+- You want to snapshot state before a risky operation.
+- The object's internal structure shouldn't be exposed to the outside.
 
-### Components
+### Trade-offs
+- ✅ Clean undo/redo without leaking internals.
+- ✅ Snapshots are self-contained.
+- ❌ Can use significant memory if snapshots are large or frequent.
 
-1. **Memento**: Stores the internal state of the object. It doesn't allow modification of the state once it's stored.
-2. **Originator**: The object whose state is being captured. It can create a memento that stores its state and restore its state from a memento.
-3. **Caretaker**: Manages the mementos, but doesn’t alter or inspect their contents. It holds the mementos and passes them to the originator when needed.
-4. **Client**: Creates the originator and caretaker, and handles the saving and restoration of state.
-
-### Example (Transaction State Management)
-
+### Example
 ```typescript
-const transaction = new Transaction('Pending');
-const caretaker = new Caretaker();
+class Transaction {
+  constructor(private status: string) {}
 
-caretaker.addMemento(transaction.saveStateToMemento());
+  getStatus() { return this.status; }
+  setStatus(s: string) { this.status = s; }
+  save() { return { status: this.status }; }
+  restore(snapshot: { status: string }) { this.status = snapshot.status; }
+}
 
-transaction.setState('Completed');
-console.log('State after completion:', transaction.getState());
+const tx = new Transaction('pending');
+const snapshot = tx.save();
 
-transaction.restoreStateFromMemento(caretaker.getMemento(0));
-console.log('State after undo:', transaction.getState());
+tx.setStatus('processing');
+console.log(tx.getStatus()); // processing
+
+tx.restore(snapshot);
+console.log(tx.getStatus()); // pending
+```

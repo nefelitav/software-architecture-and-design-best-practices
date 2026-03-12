@@ -1,27 +1,33 @@
 ## Mapper
-### Description
-The **Mapper Pattern** is a structural design pattern used to convert one data representation into another. It is typically used to map data between different layers of an application, such as converting database entities to DTOs (Data Transfer Objects) or between different formats (e.g., JSON to object).
 
-### Use Cases
-* When there is a need to map between different data formats or structures.
-* When transforming data between different layers of an application (e.g., between database models and service models).
-* When reducing code duplication by centralizing data transformation logic.
+Converts data from one representation to another. Centralises transformation logic so it doesn't leak into business logic or presentation layers.
 
-### Components
-1. **Mapper**: A class or function that handles the transformation of data from one form to another.
-2. **Source**: The object or data that needs to be transformed.
-3. **Target**: The object or format that the source data is being mapped to.
+### When to use
+- You need to translate between domain objects, DTOs, database models, or API response shapes.
+- Transformation logic is non-trivial and used in multiple places.
+- You want to keep layers of the application decoupled from each other's data shapes.
 
-### Pros
-- **Code Reusability**: Centralizes mapping logic, making it reusable across different parts of the application.
-- **Separation of Concerns**: Keeps the transformation logic separate from the core business logic, promoting clean code.
-
-### Cons
-- **Additional Complexity**: Adds extra abstraction, which might make it harder to understand for simple cases.
+### Trade-offs
+- ✅ One place to update when a data shape changes.
+- ✅ Keeps transformation logic out of domain and controller code.
+- ❌ Extra boilerplate for simple, one-to-one mappings.
 
 ### Example
 ```typescript
-const user = new User(1, "John Doe");
-const userDto = UserMapper.toDto(user);
-console.log(userDto); // UserDto { userId: 1, fullName: 'John Doe' }
+type UserRecord = { user_id: number; full_name: string; email_address: string };
+type UserDTO    = { id: number; name: string; email: string };
+
+const UserMapper = {
+  toDTO(record: UserRecord): UserDTO {
+    return {
+      id:    record.user_id,
+      name:  record.full_name,
+      email: record.email_address,
+    };
+  },
+};
+
+const record: UserRecord = { user_id: 1, full_name: 'Alice Smith', email_address: 'alice@example.com' };
+console.log(UserMapper.toDTO(record));
+// { id: 1, name: 'Alice Smith', email: 'alice@example.com' }
 ```

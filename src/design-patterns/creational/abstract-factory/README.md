@@ -1,30 +1,53 @@
 ## Abstract Factory
-### Description
-An Abstract Factory is useful for **encapsulating** the creation of *families* of related or dependent objects, ensuring that products are compatible with each other. By using an Abstract Factory, the client is **decoupled** from the specific classes of the objects it needs, making the code easier to **maintain** and adapt to changes. Additionally, it helps ensure **consistency** by **reusing** common creation logic for related products across various parts of the application. The Abstract Factory defines a Factory Method per product. 
-
-### Use Cases
-* When you need to create **families** of related objects (e.g., GUI components like Windows vs. Mac buttons).
-* To ensure that objects created together are **compatible** with each other.
-* To support **adding** new product families easily without modifying existing code.
-
-### Components
-1. **Abstract Factory**: Declares creation methods for producing different abstract products. Acts as an interface or abstract class.
-2. **Abstract Products**: Define interfaces or abstract classes for a group of related or dependent products that the factory can create.
-3. **Concrete Factories**: Implement the abstract factory interface to create specific products of a particular family.
-4. **Concrete Products**: Implement the abstract product interfaces and represent specific product variants.
-5. **Client**: Uses the concrete factories to create objects. The client is decoupled from the concrete classes of the products and factories.
-
-### Pros
-- **Encapsulation**: Encapsulates object creation logic for families of products. 
-- **Consistency**: Ensures compatibility among objects from the same product family. 
-- **Extensibility**: New product families can be added without altering existing code.
-
-### Cons
-- **Complexity**: Increases code complexity due to additional interfaces and classes.
-
+Creates families of related objects without specifying their concrete classes. Where Factory Method produces one product, Abstract Factory produces a coordinated set.
+### When to use
+- You need to create multiple related objects that must be compatible with each other.
+- You want to swap entire product families without changing client code.
+- Common in UI toolkits, payment systems, or multi-platform libraries.
+### Trade-offs
+- ✅ Guarantees compatibility within a product family.
+- ✅ Easy to swap families — change one factory, get a whole new set.
+- ❌ Adding a new product type requires updating every factory.
 ### Example
 ```typescript
-const factory: GUIFactory = new MacFactory(); 
-const button = factory.createButton(); 
-const checkbox = factory.createCheckbox();
-```
+interface PaymentFactory {
+  createProcessor(): { charge(amount: number): void };
+  createReceipt():   { generate(): void };
+}
+class StripeFactory implements PaymentFactory {
+  createProcessor() { return { charge: (n) => consol## Abstract Factory
+Creates families of related objects without specifying their concrete classes. Where Factory Method prodclasCreates families opl### When to use
+- You need to create multiple related objects that must be compatible with each other.
+- You want to swap entire product families without changing cl.l- You need to ei- You want to swap entire product families without changing client codeber) {
+  const p- Common in UI toolkitsteProcessor();
+  const receipt   = factory.createR### Trade-offs
+- ✅ Guarantees compatibility within ate();
+}
+checkout(- ✅ Guarantto- ✅ Easy t// Stripe charged $100
+// Stripe receipt sen- ❌ Addicat > /Users/nefeli.tavoulari/software-design-best-practices/src/design-patterns/creational/builder/README.md << 'EOF'
+## Builder
+Constructs a complex object step by step. Separates what is being built from how it is assembled, and only produces the final object when you call `build()`.
+### When to use
+- An object has many optional or dependent configuration parameters.
+- You want to avoid constructors with long parameter lists.
+- The construction order matters or involves multiple steps.
+### Trade-offs
+- ✅ Readable, fluent construction — each step is named.
+- ✅ Easy to produce different configurations from the same builder.
+- ❌ More boilerplate for simple objects.
+### Example
+```typescript
+class QueryBuilder {
+  private table = '';
+  private conditions: string[] = [];
+  private limitVal?: number;
+  from(table: string)      { this.table = table; return this; }
+  where(condition: string) { this.conditions.push(condition); return this; }
+  limit(n: number)         { this.limitVal = n; return this; }
+  b## Builder
+Constructs a complex object step by step. Separates what is being built from how it is assembled, ERE ${this.conditions### When to use
+- An object has many optional or dependent configuration parameters.
+- You want to avoid constructors with long parameter lists.
+- The constsa- An object haer- You want to avoid constructors with long parameter lists.
+- The cil- The construction order matters or involves multiple stepRE### Trade-offs
+- ✅ Readable, fluent construct``

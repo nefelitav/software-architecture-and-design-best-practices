@@ -1,31 +1,39 @@
-## Decorator Pattern
+## Decorator
 
-### Description
-The **Decorator Pattern** allows behavior to be added to an individual object dynamically, without affecting the behavior of other objects from the same class. It provides a flexible alternative to subclassing for extending functionality.
+Adds behaviour to an object dynamically by wrapping it. Each decorator layer adds to — or modifies — what the previous layer does, without touching the original class.
 
-### Use Cases
-* Add additional responsibilities to an object dynamically.
-* Enhance or modify the behavior of an object at runtime without altering its structure.
-* Avoid subclassing when only a few instances need to differ in behavior.
+### When to use
+- You want to add optional responsibilities to objects at runtime.
+- Subclassing would create too many combinations.
+- Behaviour should be composable and stackable.
 
-### Components
-1. **Component**: The base interface or abstract class that defines the operations that can be decorated.
-2. **ConcreteComponent**: A class that implements the `Component` interface and provides the base functionality.
-3. **Decorator**: An abstract class or interface that wraps a `Component` object and extends its behavior.
-4. **ConcreteDecorator**: A class that extends the `Decorator` and adds specific behavior to the `Component` object.
-5. **Client**: Instantiates and uses the `ConcreteComponent` and `Decorator` objects, combining them to achieve desired behavior.
-
-### Pros
-- **Flexibility**: Allows adding functionality dynamically.
-- **Open/Closed Principle**: Objects can be extended without modifying existing code.
-- **Reusability**: Behaviors can be reused across different objects.
-
-### Cons
-- **Complexity**: The pattern can lead to many small classes, making the system harder to understand.
+### Trade-offs
+- ✅ Open/Closed — extend behaviour without modifying the original.
+- ✅ Composable — stack as many layers as needed.
+- ❌ Many small wrapper classes can be hard to navigate.
+- ❌ Decorator order matters and can be easy to get wrong.
 
 ### Example
 ```typescript
-// Decorate a basic coffee object with milk and sugar
-let myCoffee = new SugarDecorator(new MilkDecorator(new SimpleCoffee()));
-console.log(myCoffee.cost()); 
+interface Logger {
+  log(message: string): void;
+}
+
+class ConsoleLogger implements Logger {
+  log(message: string) { console.log(message); }
+}
+
+class TimestampLogger implements Logger {
+  constructor(private inner: Logger) {}
+  log(message: string) { this.inner.log(`[${new Date().toISOString()}] ${message}`); }
+}
+
+class PrefixLogger implements Logger {
+  constructor(private inner: Logger, private prefix: string) {}
+  log(message: string) { this.inner.log(`${this.prefix} ${message}`); }
+}
+
+const logger = new PrefixLogger(new TimestampLogger(new ConsoleLogger()), '[PAYMENT]');
+logger.log('Transaction completed');
+// [PAYMENT] [2026-03-12T...] Transaction completed
 ```
