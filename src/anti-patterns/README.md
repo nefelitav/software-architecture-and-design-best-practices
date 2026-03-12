@@ -1,129 +1,135 @@
-# Software Engineering Anti-Patterns
+# Anti-Patterns
 
-## **Bloaters: When Code Becomes Too Large & Complex**
-- **Long Methods** → Break them down using *Extract Method*, *Local Variables*, *Class Extraction*, *Decomposing Conditionals*
-- **Large Classes** → Use *Extract Class*, *Extract Subclass*, or *Extract Interface*
-- **Primitive Obsession** → Use *Value Objects* instead of raw primitives (e.g., `Money` instead of `int`)
-- **Too Many Parameters** → Group related parameters into **objects**
-- **Repeated Groups of Variables** → Turn them into **their own class**
-- #### Avoid Boolean Parameters
-❌ Bad Example
+Anti-patterns are recurring solutions that seem reasonable but make code harder to read, change, or maintain. Recognising them is the first step to avoiding them.
+
+---
+
+## Bloaters — Code That Has Grown Too Large
+
+Code grows without discipline. Watch for:
+
+- **Long methods** — if you need to scroll to read it, extract it.
+- **Large classes** — a class doing too much should be split by responsibility.
+- **Primitive obsession** — model domain concepts explicitly (`Money`, `Email`) rather than passing raw `int` or `string` values.
+- **Too many parameters** — group related arguments into a dedicated object.
+
+**Avoid boolean parameters.** They hide intent and force the caller to guess what `true` means.
+
 ```java
-void setUserStatus(boolean isActive) {
-    if (isActive) {
-        // ...
-    } else {
-        // ...
+// ❌
+void setUserStatus(boolean isActive) { ... }
+
+// ✅
+void activateUser() { ... }
+void deactivateUser() { ... }
+```
+
+**Encapsulate conditionals.** Logic buried in an `if` condition belongs in a named method.
+
+```java
+// ❌
+if (employee.age > RETIREMENT_AGE) { ... }
+
+// ✅
+if (employee.isEligibleForRetirement()) { ... }
+```
+
+---
+
+## OOP Abusers — Misusing Object-Oriented Design
+
+- **Complex `if`/`switch` on type** — replace with polymorphism.
+- **Temporary fields** — if a field is only valid in some states, extract a new class.
+- **Misused inheritance** — if a subclass only uses half of its parent, prefer composition over inheritance.
+- **Duplicated logic across classes** — extract shared behaviour into a common abstraction.
+
+---
+
+## Change Preventers — Code That Resists Modification
+
+- **Divergent change** — if one class is modified for many unrelated reasons, split it.
+- **Shotgun surgery** — if one change requires edits across many classes, consolidate the logic.
+- **Parallel inheritance hierarchies** — if adding a subclass always forces another elsewhere, replace one hierarchy with associations.
+
+---
+
+## Dispensables — Code That Shouldn't Exist
+
+Delete, don't accumulate.
+
+- **Excessive comments** — code should explain itself; comments should explain *why*, not *what*.
+- **Duplicate code** — extract once, reuse everywhere.
+- **Lazy class** — a class that barely does anything should be merged.
+- **Data class** — a class with only getters/setters has no behaviour; either add it or remove the class.
+- **Dead code** — unused variables, methods, and branches should be deleted, not kept "just in case".
+- **Speculative generality** — don't abstract for a future that may never come.
+
+---
+
+## Couplers — Classes Too Dependent on Each Other
+
+- **Feature envy** — if a method uses another object's data more than its own, move it there.
+- **Inappropriate intimacy** — classes should not reach into each other's internals.
+- **Message chains** — `a.b().c().d()` is a sign of too much indirect coupling; refactor the interface.
+- **Middle man** — a class that only delegates to another adds no value; remove it.
+
+Prefer dependency injection over hard-wired instantiation.
+
+```java
+// ❌
+class UserService {
+    UserRepository repo = new UserRepository();
+}
+
+// ✅
+class UserService {
+    UserService(UserRepository repo) {
+        this.repo = repo;
     }
 }
 ```
-✅ Good Example
-```java
-void activateUser() {
-    // ...
-}
-
-void deactivateUser() {
-    // ...
-}
-```
-- #### Encapsulate Conditionals
-❌ Bad Example
-```java
-if (employee.age > RETIREMENT_AGE) {
-    // ...
-}
-```
-✅ Good Example
-```java
-if (employee.isEligibleForRetirement()) {
-// ...
-}
-```
----
-
-## **Object-Orientation Abusers: When OOP Is Used Incorrectly**
-- **Complex `if`/`switch` statements** → Replace with *Polymorphism & Subclasses*
-- **Temporary Fields (only used in some situations)** → Extract a *new class*
-- **Misuse of Inheritance (subclass uses only some parent methods)** → Replace *inheritance with delegation*
-- **Identical Functions in Different Classes** → Extract shared behavior into a *common class*
 
 ---
 
-## **Change Preventers: Code That’s Hard to Modify**
-- **Divergent Change (one class constantly modified for different reasons)** → Split up behavior
-- **Shotgun Surgery (many small changes across different classes)** → Consolidate logic into *one class*
-- **Parallel Inheritance Hierarchies (adding a subclass forces adding another elsewhere)** → Replace one hierarchy with **associations**
+## General Bad Practices
+
+- **Reinventing the wheel** — reach for a well-maintained library before writing your own.
+- **Hardcoded configuration** — use config files or environment variables.
+- **Magic numbers and strings** — name them; use constants or enums.
+- **Logging without context** — always include relevant identifiers (request ID, user ID, etc.).
+- **Imports scattered throughout the file** — keep them at the top.
+- **Relative import paths** — use absolute paths for maintainability.
+- **Business logic in the frontend** — validate and process server-side.
+- **Unnecessary public methods** — default to private; expose only what needs to be exposed.
+- **Mutable properties that should be `readonly`** — signal immutability explicitly.
+- **Extendable classes that shouldn't be** — mark them `final`.
+- **Ad-hoc string values where an enum fits** — if a value belongs to a fixed set, model it as one.
 
 ---
 
-## **Dispensables: Unnecessary Code That Should Be Removed**
-- **Excessive Comments** → Use *self-explanatory code* instead
-- **Duplicate Code** → Use *Extract Method/Class* to remove redundancy
-- **Lazy Class (a class that does almost nothing)** → Merge it with another
-- **Data Class (only getters/setters, no behavior)** → Add **meaningful methods** or remove it
-- **Dead Code (unused code, variables, methods)** → Delete it
-- **Speculative Generality (unused future-proofing code)** → Remove unnecessary abstraction
+## API Bad Practices
 
----
+Design APIs around **resources and intent**, not implementation details.
 
-## **Couplers: When Classes Are Too Dependent on Each Other**
-- **Feature Envy (a method accesses another object’s data more than its own)** → Move the method to the **appropriate class**
-- **Inappropriate Intimacy (one class overly depends on another’s internal details)** → **Decouple** the classes
-- **Long Chains of Calls (`$a->b()->c()->d()`)** → Reduce indirect dependencies by refactoring the **API**
-- **Middle Man Class (a class that delegates all work elsewhere)** → Remove it
-- #### ❌ Bad Example
-```java
-class UserService {
-    UserRepository userRepository = new UserRepository();
-}
-```
-- #### ✅ Good Example
-```java
-class UserService {
-    UserRepository userRepository;
+**Endpoints**
+- Use nouns, not actions — `/customers`, not `/getCustomer`.
+- Use path variables for specific resources — `/users/{id}`.
+- Use query parameters for filtering, sorting, and pagination.
+- Version your API — `/v1/`, `/v2/`.
+- Validate path and query parameters; never assume inputs are valid or data exists.
 
-    UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-}
-```
----
+**Methods & status codes**
+- `GET` must never change state.
+- Use `POST` only for creation; support `PUT` and `PATCH` correctly (they are not interchangeable).
+- Return the right status code — `200`, `201`, `204` are not the same.
+- Return meaningful error responses — a vague `400` or catch-all `500` helps no one.
 
-## **Miscellaneous Bad Practices**
-- **Reinventing the Wheel** → Use **existing libraries** instead of writing everything from scratch
-- **Hardcoded Configuration** → Use **config files or environment variables**
-- **Logging Without Context** → Include **relevant details** in logs (e.g., request IDs, user IDs)
-- **Magic Numbers & Strings** → Replace with **constants or enums** for better readability  
-- Importing packages in random places throughout the file instead of at the top.
-- Using relative paths for imports, making code harder to maintain.
-- Putting lots of logic in the frontend rather than validating or processing it server-side
-- Exposing internal logic unnecessarily through public methods instead of using private.
-- Not marking class properties as readonly when appropriate.
-- Not declaring a class final when it is not meant to be extended.
-- Not using enums when values have a clearly defined set of options (e.g. tabs, legal URLs, billable labels).
-
-## **API Bad Practices**
-- Making everything in your API `'required'`
-- Passing sensitive data in the URL
-- Responding with XML
-- Designing monolithic APIs instead of modular ones
-- Not supporting both `PATCH` and `PUT` properly (they are different)
-- Abusing `POST` (use it only for creation)
-- Allowing a `GET` request to change state
-- Using actions instead of nouns in endpoint names (e.g., `/getCustomer` instead of `/customers`)
-- Not using path variables for specific resources (e.g., not using `/users/{id}`)
-- Not leveraging query parameters for filtering, sorting, and pagination
-- Allowing unlimited query results
-- Ignoring API versioning (e.g., `/v1/`, `/v2/`)
-- Not understanding the difference between status codes: `200`, `201`, and `204`
-- Returning vague `400 Bad Request` errors without explanation
-- Using generic `500` status codes for all server errors
-- Designing routes around actions, not resources
-- Not considering rate limiting when designing routes
-- Not caching or cache-invalidating effectively
-- Omitting request IDs in server logs
-- Trusting data from the web browser
-- Using vague API route parameters like {version} without clarifying the allowed formats or not validating them.
-- Not thinking through edge cases, e.g. assuming data always exists or that inputs are always valid.
-
+**Security & reliability**
+- Never pass sensitive data in the URL.
+- Never trust data from the browser.
+- Enforce rate limiting.
+- Paginate results — never allow unlimited queries.
+- Cache effectively and invalidate correctly.
+- Include request IDs in all server logs.
+- Don't make everything `required` — design for flexibility.
+- Prefer JSON over XML.
