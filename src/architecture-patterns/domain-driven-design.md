@@ -1,14 +1,23 @@
 # Domain-Driven Design (DDD)
 
-## Description
-Domain-driven design focuses on modeling complex business domains by structuring code around domain models, aggregates, value objects, and bounded contexts. It aligns software design with business rules.
-- DDD focuses on mirroring real-world business concepts in your code.
-- The domain model isn't just data — it’s behavior + rules.
-- Boundaries between models (contexts) are clear and intentional.
+Domain-Driven Design structures software around the **business domain** rather than around technical layers alone. It emphasises domain models, shared language, and **bounded contexts** so that complex business rules stay explicit and manageable.
 
-## Pros
-**Business alignment**: Ensures software reflects real-world business processes.  
+## When it fits
 
-**Complexity management**: Breaks down large domains into smaller contexts.  
+Use it when the domain is complex, business rules matter, and teams need a shared understanding of the problem space.
 
-**Communication**: Encourages collaboration between developers and domain experts.
+## Strengths
+
+- **Business alignment** — the software mirrors real business concepts and rules.
+- **Clear boundaries** — bounded contexts reduce confusion between different parts of the domain.
+- **Better communication** — developers and domain experts can speak the same language.
+
+## Trade-offs
+
+- **Higher upfront effort** — good domain modelling takes time.
+- **Not always necessary** — simple CRUD systems may not need this level of modelling.
+- **Requires discipline** — unclear boundaries quickly weaken the approach.
+
+## Example
+
+A fintech platform where payments, accounts, compliance, and billing are modelled as separate bounded contexts with their own rules and language.

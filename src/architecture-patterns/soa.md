@@ -1,11 +1,23 @@
 # Service-Oriented Architecture (SOA)
 
-## Description
-SOA structures applications as a collection of loosely coupled services that interact through standardized protocols (like SOAP, REST, or HTTP). It focuses on service reuse and interoperability.
+SOA structures systems as **loosely coupled services** that communicate through standardized contracts. It emphasizes interoperability, integration, and service reuse across larger organizations or heterogeneous systems.
 
-## Pros
-**Reusability**: Promotes reuse of services across projects.  
+## When it fits
 
-**Integration**: Facilitates integration with legacy systems.  
+Use it when multiple systems need to integrate reliably across teams, departments, or legacy platforms.
 
-**Modularity**: Improves maintainability by breaking down systems into modular services.
+## Strengths
+
+- **Interoperability** — services can communicate across different technologies and platforms.
+- **Reuse** — shared capabilities can be exposed as common services.
+- **Integration-friendly** — it works well in enterprise environments with many existing systems.
+
+## Trade-offs
+
+- **Governance overhead** — service contracts and coordination require discipline.
+- **Can become heavyweight** — enterprise tooling and standards may add complexity.
+- **Latency and dependency chains** — multiple service hops can slow requests and complicate failures.
+
+## Example
+
+An enterprise system where billing, identity, inventory, and reporting are exposed as shared services used by several internal applications.

@@ -1,13 +1,23 @@
-# Client Server
+# Client-Server Architecture
 
-## Description
-The client-server architecture is a model in which the client, a user or an application, sends a request to the server, which in turn responds with the requested data or service. The client and server can be on the same machine or on different machines connected through a network.
+Client-server architecture separates a system into **clients**, which request work, and **servers**, which provide data or services. The client is usually the user-facing side; the server handles shared resources, business logic, and storage.
 
-The client is responsible for initiating communication with the server and sending a request. The server, on the other hand, listens for incoming requests from clients, processes them, and returns a response.
+## When it fits
 
-## Pros
-**Scalability**: Client-server architecture is highly scalable, as it allows multiple clients to connect to the same server and share resources.
+Use it when many users or applications need to access the same central service over a network.
 
-**Security**: Client-server architecture provides better security than other network models, as the server can control access to resources and data.
+## Strengths
 
-**Reliability**: Client-server architecture is highly reliable, as the server can provide backup and recovery services in case of failures.
+- **Centralised control** — security, data, and business rules can be managed in one place.
+- **Shared resources** — many clients can use the same backend service.
+- **Scalability** — servers can often be scaled independently from clients.
+
+## Trade-offs
+
+- **Server dependency** — if the server fails, clients may stop working.
+- **Network latency** — every request depends on communication over the network.
+- **Operational complexity** — availability, scaling, and security become backend concerns.
+
+## Example
+
+A web application where the browser is the client and the backend API plus database form the server side.

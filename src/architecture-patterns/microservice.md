@@ -1,12 +1,24 @@
-# Microservice Architecture
+# Microservices Architecture
 
-## Description
-Microservice architecture breaks down a system into small, independently deployable services, each responsible for a specific business function. These services communicate via lightweight protocols (like HTTP or gRPC).
-More independence and smaller services than SOA.
+Microservices architecture splits a system into **small, independently deployable services**, each responsible for a specific business capability. Services communicate over the network using APIs or messaging.
 
-## Pros
-**Scalability**: Services can be scaled individually based on demand.  
+## When it fits
 
-**Fault isolation**: Failures in one service don’t affect the entire system.  
+Use it when a system is large enough that independent deployment, team autonomy, and service-level scaling provide real value.
 
-**Technology flexibility**: Different services can use different tech stacks.
+## Strengths
+
+- **Independent deployment** — services can be released without redeploying the whole system.
+- **Scalability** — each service can scale based on its own load.
+- **Team autonomy** — teams can own services end to end.
+- **Technology flexibility** — different services can use different stacks when justified.
+
+## Trade-offs
+
+- **Distributed-system complexity** — networking, observability, retries, and failures become everyday concerns.
+- **Data consistency is harder** — transactions across services are more complex.
+- **Operational overhead** — more services mean more deployment and monitoring work.
+
+## Example
+
+An e-commerce platform split into catalog, checkout, payments, shipping, and notifications services.

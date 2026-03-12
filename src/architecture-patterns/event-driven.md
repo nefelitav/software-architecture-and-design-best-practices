@@ -1,11 +1,23 @@
 # Event-Driven Architecture
 
-## Description
-Event-driven architecture is a design pattern where components communicate by producing and consuming events. An event represents a significant change in state (like a user placing an order), and other components react to it asynchronously. Event brokers (such as Kafka or RabbitMQ) often manage event distribution.
+Event-driven architecture lets components communicate by **publishing and reacting to events**. Instead of calling each other directly, parts of the system respond when something meaningful happens, such as `OrderPlaced` or `PaymentFailed`.
 
-## Pros
-**Decoupling**: Components are loosely connected, allowing flexibility and easier maintenance.  
+## When it fits
 
-**Scalability**: Supports high scalability by enabling parallel processing.  
+Use it when systems need loose coupling, asynchronous workflows, or real-time reactions to business events.
 
-**Responsiveness**: Real-time event handling makes applications more reactive.
+## Strengths
+
+- **Loose coupling** — producers and consumers can evolve independently.
+- **Scalability** — multiple consumers can process events in parallel.
+- **Responsiveness** — systems can react quickly to changes as they happen.
+
+## Trade-offs
+
+- **More moving parts** — brokers, retries, and monitoring add operational complexity.
+- **Harder debugging** — tracing a workflow across events is less straightforward.
+- **Eventual consistency** — not every part of the system updates at the same time.
+
+## Example
+
+An e-commerce system where placing an order emits events that trigger payment, inventory, email, and analytics flows independently.

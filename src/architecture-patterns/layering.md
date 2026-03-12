@@ -1,15 +1,23 @@
 # Layered Architecture
 
-## Description
-Layered architecture (or n-tier architecture) organizes an application into logical layers:
-- **Presentation layer**: Handles user interfaces.
-- **Business logic layer**: Contains core functionality, business logic, processes data. (Service)
-- **Data access layer**: Manages database interactions. (Repository)
-- **Infrastructure layer**: Deals with external systems and APIs.
+Layered architecture organises an application into **separate layers**, each with a focused responsibility. A common split is presentation, application or business logic, data access, and infrastructure.
 
-## Pros
-**Separation of concerns**: Clear division of responsibilities.  
+## When it fits
 
-**Maintainability**: Easier to test and update individual layers.  
+Use it when you want a familiar, easy-to-understand structure for business applications, especially in monoliths.
 
-**Simplicity**: Well-suited for traditional monolithic apps.
+## Strengths
+
+- **Separation of concerns** — each layer has a clear role.
+- **Maintainability** — changes are easier to localise when boundaries are respected.
+- **Approachability** — it is widely understood and easy for teams to adopt.
+
+## Trade-offs
+
+- **Can become rigid** — forcing everything through layers can create unnecessary indirection.
+- **Leakage between layers** — over time, boundaries may blur.
+- **Less ideal for complex flows** — highly distributed or event-heavy systems may outgrow it.
+
+## Example
+
+A business application with controllers in the presentation layer, services in the business layer, repositories in the data layer, and integrations in infrastructure.

@@ -1,17 +1,23 @@
-# Pipe and Filter
+# Pipe-and-Filter Architecture
 
-## Description
-Pipe and Filter Architecture is a design pattern that allows software systems to process data by separating the processing tasks into multiple independent components. This architecture is particularly useful for systems that need to handle large amounts of data, as it can help to improve performance, scalability, and maintainability.
+Pipe-and-filter architecture processes data through a **sequence of independent steps**. Each filter transforms the input and passes the result to the next stage through a pipe.
 
-The Pipe and Filter Architecture is based on the idea of a pipeline, where data flows through a series of processing steps, each of which performs a specific task. Each processing step is implemented as a separate component, or filter, that accepts data as input, performs some operation on the data, and produces output data. The output data is then passed on to the next filter in the pipeline.
+## When it fits
 
-The filters in the pipeline are independent of each other, which means that they can be developed, tested, and deployed separately. This makes it easy to add new filters to the pipeline or modify existing ones without affecting the rest of the system.
+Use it when data must move through a clear processing pipeline, especially when each step can be isolated.
 
-e.g. Log reader
+## Strengths
 
-## Pros
-**Scalability**: The architecture can be scaled horizontally by adding more filters to the pipeline, which allows the system to handle larger amounts of data.
+- **Composability** — filters can be added, removed, or reordered.
+- **Testability** — each stage can be tested independently.
+- **Scalability** — expensive stages can often be parallelised.
 
-**Performance**: The architecture can be optimized for performance by parallelizing the processing of data across multiple filters.
+## Trade-offs
 
-**Maintainability**: The architecture promotes modularity and separation of concerns, which makes it easier to maintain and update the system over time.
+- **Data format coordination** — filters must agree on what flows between them.
+- **Pipeline overhead** — many stages can add latency and operational complexity.
+- **Not ideal for highly stateful workflows** — it fits transformations better than rich interactive behaviour.
+
+## Example
+
+A log-processing pipeline where raw logs are parsed, enriched, filtered, and then indexed for search.

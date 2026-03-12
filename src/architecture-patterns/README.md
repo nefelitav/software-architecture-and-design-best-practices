@@ -1,12 +1,41 @@
-## 4C Model (visual modeling technique for software architecture)
-### Context Level
-Describes the system’s external environment, such as users, other systems, regulations, etc. This level provides a high-level overview of the system’s purpose and its relationship to the external world. It helps to identify the stakeholders who will interact with the system and the factors that will influence its design and development.
+# Architecture Patterns
 
-### Containers level
-Describes the runtime environment of the system, such as servers, databases, or message queues. This level helps to identify the major technology choices and deployment decisions. It provides an understanding of the physical infrastructure that will support the system and the tools and resources that will be required to deploy and maintain it.
+Architecture patterns describe the **high-level structure of a system**: how responsibilities are divided, how parts communicate, and where complexity lives.
 
-### Components level
-Describes the major functional building blocks of the system. This level helps to identify the modules, classes, or functions that make up the system. It provides an understanding of the system’s functionality and the relationships between its different components.
+This folder focuses on **system-level organisation**, not class-level design. In short:
 
-### Code level
-Describes the actual code and how it implements the components. This level provides a detailed understanding of how the system works and how its different components interact with each other. It is essential for developers who will be working with the code to have a clear understanding of how it is structured and how it works.
+- **Architecture patterns** shape the whole system.
+- **Design patterns** solve smaller design problems inside that system.
+- **Principles** guide decisions across both.
+
+---
+
+## What you'll find here
+
+- **Monolithic** — one deployable unit containing the whole application.
+- **Layered** — responsibilities split into layers such as presentation, business, and data access.
+- **Client-Server** — clients request services from central servers.
+- **Component-Based** — systems composed from reusable, well-defined components.
+- **MVC** — separates model, view, and controller responsibilities, especially in UI-heavy systems.
+- **Microservices** — small, independently deployable services built around business capabilities.
+- **SOA** — a service-based approach focused on interoperability and reuse across systems.
+- **Event-Driven** — components react to events asynchronously.
+- **Publish-Subscribe** — publishers emit messages without knowing which subscribers will consume them.
+- **Pipe-and-Filter** — data flows through a sequence of processing steps.
+- **Stream-Based** — systems process continuous flows of data in real time.
+- **Microkernel** — a small core extended through plug-ins or modules.
+- **Domain-Driven Design (DDD)** — architecture shaped around the business domain and its boundaries.
+- **Primary-Replica** *(currently named `master-slave.md`)* — one primary node coordinates one or more replicas.
+
+---
+
+## How to read these patterns
+
+Each file answers the same practical questions:
+
+- **What it is**
+- **When it fits**
+- **Why teams choose it**
+- **What trade-offs come with it**
+
+The goal isn't to pick a "best" architecture. It's to understand which one fits the problem you're solving.

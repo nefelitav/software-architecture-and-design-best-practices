@@ -1,18 +1,23 @@
-# 1. MVC (Model-View-Controller) Pattern
+# MVC Architecture
 
-## Description
-The **Model-View-Controller (MVC)** pattern is a widely-used architectural pattern that separates an application into three main components:
-- **Model**: Represents the application's data and business logic. It directly manages the data, logic, and rules of the application.
-- **View**: Represents the UI elements, displaying data from the model to the user and allowing user interactions.
-- **Controller**: Acts as an intermediary between the Model and View. It processes user input from the View and updates the Model accordingly, or updates the View based on changes in the Model.
+MVC stands for **Model-View-Controller**. It separates an application into three responsibilities: the **model** holds data and rules, the **view** renders the UI, and the **controller** handles input and coordinates changes.
 
-MVC promotes separation of concerns, making it easier to manage, test, and maintain the code.
+## When it fits
 
-## Pros
-**Separation of Concerns**: Divides the application into three distinct components, which makes code more modular, maintainable, and testable.
+Use it in UI-heavy applications where separating presentation from application state and input handling improves maintainability.
 
-**Scalability**: The separation makes it easier to scale the application by updating the UI, logic, or data layers independently.
+## Strengths
 
-**Flexibility**: Different views can be created for the same model. This is particularly useful for applications with multiple user interfaces.
+- **Separation of concerns** — UI, state, and request handling are split clearly.
+- **Maintainability** — changes in one part are less likely to affect the others.
+- **Multiple views** — the same model can support different visual representations.
 
-**Easier Maintenance**: Changes in the business logic can be made without affecting the presentation logic, making it easier to implement changes over time.
+## Trade-offs
+
+- **Can become controller-heavy** — poorly designed controllers turn into dumping grounds.
+- **More indirection** — simple screens may feel over-structured.
+- **Not universal** — modern frontend architectures may prefer alternatives depending on the stack.
+
+## Example
+
+A server-rendered web app where controllers handle requests, models encapsulate business data, and views generate HTML.
